@@ -18,7 +18,6 @@ backend/sample_bfmFfD2RIcg.wav
 backend/sample_NrO0CJCbYLA.wav
 backend/sample.wav
 backend/app.py
-backend/db.py
 backend/demo.py
 backend/image.py
 backend/subdemo.py
