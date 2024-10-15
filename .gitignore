@@ -17,10 +17,6 @@ backend/sample_5C_HPTJg5ek.wav
 backend/sample_bfmFfD2RIcg.wav
 backend/sample_NrO0CJCbYLA.wav
 backend/sample.wav
-backend/faiss_index
-backend/instance
-backend/outputs
-backend/routes
 backend/summarizer
 backend/twitter
 backend/uploads
