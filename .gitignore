@@ -19,7 +19,6 @@ backend/sample_NrO0CJCbYLA.wav
 backend/sample.wav
 backend/app.py
 backend/demo.py
-backend/image.py
 backend/subdemo.py
 client/client/node_modules
 client/public
