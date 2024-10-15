@@ -21,5 +21,4 @@ backend/app.py
 client/client/node_modules
 client/public
 
-client/src/subpages
 client/src/ui
