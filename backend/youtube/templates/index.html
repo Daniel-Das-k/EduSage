@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube authentication</title>
+</head>
+<body>
+    {% if user_info %}
+        <p>Logged in as {{user_info.get("name")}}</p>
+        <p></p><br/>
+        <a href="/logout"><button>Logout</button></a>
+    {% else %}
+        <a href="{{ login_url }}"><button>Connect with Youtube</button></a>
+    {% endif %}
+</body>
+</html>
