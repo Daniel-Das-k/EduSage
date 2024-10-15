@@ -20,7 +20,7 @@ backend/sample.wav
 backend/app.py
 client/client/node_modules
 client/public
-client/src/lib
+
 client/src/pages
 client/src/subpages
 client/src/ui
