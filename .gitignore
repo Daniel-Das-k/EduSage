@@ -28,4 +28,11 @@ backend/image.py
 backend/subdemo.py
 client/client/node_modules
 client/public
-client/src
+client/src/components
+client/src/config
+client/src/context
+client/src/font
+client/src/lib
+client/src/pages
+client/src/subpages
+client/src/ui
