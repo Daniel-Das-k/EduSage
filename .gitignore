@@ -26,3 +26,6 @@ backend/db.py
 backend/demo.py
 backend/image.py
 backend/subdemo.py
+client/client/node_modules
+client/public
+client/src
