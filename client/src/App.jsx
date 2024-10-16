@@ -23,6 +23,9 @@ const App = () => {
     <Route index element={<Login/>}/>
     <Route path='/Register' element={<Register/>}/>
     <Route path='/Home' element={<Home/>}/>
+    <Route path='/Automation' element={<Automation/>}/>
+    <Route path='/Youtube Summarizer' element={<Summarization/>}/>
+    <Route path='/Translator' element={<Video/>}/>
     {/* <Route path='/Email' element={<Email/>}/> */}
     <Route path='/Text' element={<TextSum/>}/>
     <Route path='/image' element={<Image/>}/>

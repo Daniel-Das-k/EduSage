@@ -42,6 +42,13 @@ class LinkedInAuthApp:
         else:
             return 'LinkedIn OAuth failed!'
 
+    def get_id(self, access_token):
+        url = 'https://api.linkedin.com/v2/userinfo'
+        headers = {
+            'Authorization': f'Bearer {access_token}'
+        }
+        response = requests.get(url, headers=headers)
+        return response.json().get('sub')
 
     def get_access_token(self, code):
         access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'

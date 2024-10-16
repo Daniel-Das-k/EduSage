@@ -434,7 +434,24 @@ setLoading(false);
       console.error("Error during Discord connection:", error);
     }
   };
-
+  const handleNarrateContent = () => {
+    let contentToNarrate = '';
+  
+    if (twitterContent) {
+      contentToNarrate = twitterContent;
+    } else if (linkedinContent && linkedinContent.content) {
+      contentToNarrate = linkedinContent.content;
+    } else if (facebookContent) {
+      contentToNarrate = facebookContent;
+    }
+  
+    if ('speechSynthesis' in window && contentToNarrate) {
+      const utterance = new SpeechSynthesisUtterance(contentToNarrate);
+      speechSynthesis.speak(utterance);
+    } else {
+      console.error('SpeechSynthesis API not supported or no content to narrate.');
+    }
+  };
   return (
     <Container>
       <SubContainer>

@@ -1,8 +1,10 @@
-
+// AppContext.jsx
 import React, { createContext, useState, useContext } from 'react';
 
+// Create context
 const MouseEnterContext = createContext();
 
+// Context provider
 export const MouseEnterProvider = ({ children }) => {
   const [isMouseEntered, setIsMouseEntered] = useState(false);
 
@@ -13,7 +15,7 @@ export const MouseEnterProvider = ({ children }) => {
   );
 };
 
-
+// Custom hook
 export const useMouseEnter = () => {
   const context = useContext(MouseEnterContext);
   if (!context) {

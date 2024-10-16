@@ -6,12 +6,14 @@ EduSage is a comprehensive, AI-driven educational platform designed to enhance i
 
 1. **Authorization:**
 
+
     ![EduSage Architecture](images/Authorization.png)
     - Users are redirected to LinkedIn, Instagram, Facebook, and Twitter for authorization after initiating connections.
     - Upon successful authentication, access tokens, refresh tokens, and token expiry information are obtained.
     - All tokens and expiry details are securely stored in MongoDB.
 
 2. **Content Generation:**
+
 
      ![EduSage Architecture](images/Content.png)
     - Agents use CrewAI technology, supported by Llama 3 and DuckDuckGo, to generate posts.
