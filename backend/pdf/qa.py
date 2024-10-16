@@ -1,7 +1,9 @@
+
 import os
 import random
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import List
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -17,26 +19,27 @@ import uvicorn
 app = FastAPI()
 
 load_dotenv()
-GOOGLE_GEMINI_KEY =  "AIzaSyBQk7Saxz2x4zyEhLTUforesq1oc6igQnY"
+GOOGLE_GEMINI_KEY = os.getenv("GOOGLE_API_KEY")
 
+# Global list to store generated questions and their marks
+current_questions = []
 
 class PDFInput(BaseModel):
     pdf_path: str
-    num_questions: int
     num_detailed_questions: int
     num_small_questions: int
 
-class AnswerInput(BaseModel):
-    question: str
+class QuestionAnswerInput(BaseModel):
+    question_number: int
     answer: str
-    marks: int
 
 class QAProcessor:
     def __init__(self, google_api_key, faiss_index_path="faiss_index"):
         self.google_api_key = google_api_key
         self.faiss_index_path = faiss_index_path
         self.vector_store = None
-        self.raw_text=raw_text
+        self.raw_text = None
+
     def load_or_create_vector_store(self):
         if not self.vector_store:
             embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=self.google_api_key)
@@ -46,13 +49,11 @@ class QAProcessor:
             else:
                 text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
                 chunks = text_splitter.split_text(self.raw_text)
-                embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001",google_api_key=self.google_api_key)
                 vector_store = FAISS.from_texts(chunks, embedding=embeddings)
                 vector_store.save_local("faiss_index")
                 self.vector_store = FAISS.load_local(self.faiss_index_path, embeddings, allow_dangerous_deserialization=True)
-                
 
-    def evaluate_answer(self, question, answer, marks):
+    def evaluate_answer(self, question, answer):
         self.load_or_create_vector_store()
 
         if not self.vector_store:
@@ -79,19 +80,17 @@ class QAProcessor:
         Context: {context}
         Question: {question}
         Student's Answer: {answer}
-        Total Marks: {marks}
 
         Teacher's Feedback (including marks):
-"""
+        """
         model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, google_api_key=self.google_api_key)
-        prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question", "answer", "marks"])
+        prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question", "answer"])
         chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
 
         response = chain.invoke({
             "input_documents": [context_document],
             "question": question,
-            "answer": answer,
-            "marks": marks
+            "answer": answer
         }, return_only_outputs=True)
         
         return response["output_text"]
@@ -164,29 +163,38 @@ def generate_context(text, num_chars=10000):
 
 @app.post('/generate_questions')
 async def generate_questions(pdf_input: PDFInput):
-    global raw_text
+    global current_questions
     try:
         raw_text = get_pdf_text(pdf_input.pdf_path)
         context = generate_context(raw_text)
         question_generator = QuestionGenerator(google_api_key=GOOGLE_GEMINI_KEY)
-        questions = question_generator.generate_questions(
-            context, 
-            pdf_input.num_detailed_questions, 
-            pdf_input.num_small_questions
-        )
-        return {
-            'status': 'success',
-            'questions': [{'question': q[0], 'marks': q[1]} for q in questions]
-        }
+
+        questions = question_generator.generate_questions(context, pdf_input.num_detailed_questions, pdf_input.num_small_questions)
+
+        if questions:
+            current_questions = questions  # Store the generated questions
+            return {
+                'status': 'success',
+                'questions': [{'number': i+1, 'question': q[0], 'marks': q[1]} for i, q in enumerate(questions)]
+            }
+        else:
+            raise HTTPException(status_code=500, detail="No questions could be generated.")
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post('/check_answer')
-async def check_answer(answer_input: AnswerInput):
+@app.post('/submit_answer')
+async def submit_answer(answer_input: QuestionAnswerInput):
+    global current_questions
     try:
+        if not current_questions or answer_input.question_number > len(current_questions):
+            raise HTTPException(status_code=400, detail="Invalid question number.")
+
+        question, _ = current_questions[answer_input.question_number - 1]  # Get the relevant question
+
         qa_processor = QAProcessor(google_api_key=GOOGLE_GEMINI_KEY)
-        response = qa_processor.evaluate_answer(answer_input.question, answer_input.answer, answer_input.marks)
+        response = qa_processor.evaluate_answer(question, answer_input.answer)
         return {
             'status': 'success',
             'response': response
@@ -196,4 +204,5 @@ async def check_answer(answer_input: AnswerInput):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
