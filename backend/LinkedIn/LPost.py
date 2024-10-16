@@ -39,22 +39,7 @@ class LinkedinManager:
             }
         }
 
-        response = requests.post(init_url, headers=headers, json=upload_request_body)
-        response.raise_for_status()
 
-        upload_info = response.json()
-        upload_url = upload_info['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl']
-        asset = upload_info['value']['asset']
-
-        with open(image_path, 'rb') as image_file:
-            image_headers = {
-                "Authorization": f"Bearer {self.access_token}",
-                "Content-Type": "application/octet-stream"
-            }
-            image_response = requests.put(upload_url, headers=image_headers, data=image_file)
-            image_response.raise_for_status()
-
-        return asset
 
     def create_linkedin_post_with_image(self, text, asset):
         """Create a LinkedIn post with text and an image."""

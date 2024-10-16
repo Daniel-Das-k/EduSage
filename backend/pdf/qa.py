@@ -46,12 +46,6 @@ class QAProcessor:
             if os.path.exists(self.faiss_index_path):
                 print("Loading existing FAISS index...")
                 self.vector_store = FAISS.load_local(self.faiss_index_path, embeddings, allow_dangerous_deserialization=True)
-            else:
-                text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
-                chunks = text_splitter.split_text(self.raw_text)
-                vector_store = FAISS.from_texts(chunks, embedding=embeddings)
-                vector_store.save_local("faiss_index")
-                self.vector_store = FAISS.load_local(self.faiss_index_path, embeddings, allow_dangerous_deserialization=True)
 
     def evaluate_answer(self, question, answer):
         self.load_or_create_vector_store()
@@ -100,21 +94,6 @@ class QuestionGenerator:
     def __init__(self, google_api_key, model_name="gemini-pro"):
         self.model_name = model_name
         self.google_api_key = google_api_key
-
-    def get_question_generation_chain(self, is_detailed):
-        prompt_template = """
-        Based on the provided context, generate a list of {marks}-mark questions that are {detailed_or_small}. The number of questions should match the {number}
-
-        Context:\n {context}\n
-        {detailed_or_small} Questions List=['question 1', 'question 2', 'question 3', ...]
-        """
-        detailed_or_small = "detailed (10 marks)" if is_detailed else "small (2 marks)"
-        marks = 10 if is_detailed else 2
-
-        model = ChatGoogleGenerativeAI(model=self.model_name, temperature=0.3, google_api_key=self.google_api_key)
-        prompt = PromptTemplate(template=prompt_template, input_variables=["context", "detailed_or_small", "marks", "number"])
-        chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
-        return chain
 
     def generate_questions(self, context, num_detailed, num_small):
         questions = []
@@ -171,15 +150,6 @@ async def generate_questions(pdf_input: PDFInput):
 
         questions = question_generator.generate_questions(context, pdf_input.num_detailed_questions, pdf_input.num_small_questions)
 
-        if questions:
-            current_questions = questions  # Store the generated questions
-            return {
-                'status': 'success',
-                'questions': [{'number': i+1, 'question': q[0], 'marks': q[1]} for i, q in enumerate(questions)]
-            }
-        else:
-            raise HTTPException(status_code=500, detail="No questions could be generated.")
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -193,12 +163,6 @@ async def submit_answer(answer_input: QuestionAnswerInput):
 
         question, _ = current_questions[answer_input.question_number - 1]  # Get the relevant question
 
-        qa_processor = QAProcessor(google_api_key=GOOGLE_GEMINI_KEY)
-        response = qa_processor.evaluate_answer(question, answer_input.answer)
-        return {
-            'status': 'success',
-            'response': response
-        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

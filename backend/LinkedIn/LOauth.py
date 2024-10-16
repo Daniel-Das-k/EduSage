@@ -24,19 +24,6 @@ class LinkedInAuthApp:
         session.clear()  # Clear the session when home route is accessed
         return 'Welcome to the LinkedIn OAuth demo! <a href="/linkedin/login">Login with LinkedIn</a>'
 
-    def linkedin_login(self):
-        session.clear()
-        authorization_url = 'https://www.linkedin.com/oauth/v2/authorization'
-        params = {
-            'response_type': 'code',
-            'client_id': self.CLIENT_ID,
-            'redirect_uri': self.REDIRECT_URI,
-            'scope': 'openid+profile+email+w_member_social'
-        }
-        url = f"{authorization_url}?response_type={params['response_type']}&client_id={params['client_id']}&redirect_uri={params['redirect_uri']}&scope={params['scope']}"
-        
-        return redirect(url)
-
     def linkedin_callback(self):
         code = request.args.get('code')
         
@@ -55,13 +42,6 @@ class LinkedInAuthApp:
         else:
             return 'LinkedIn OAuth failed!'
 
-    def get_id(self, access_token):
-        url = 'https://api.linkedin.com/v2/userinfo'
-        headers = {
-            'Authorization': f'Bearer {access_token}'
-        }
-        response = requests.get(url, headers=headers)
-        return response.json().get('sub')
 
     def get_access_token(self, code):
         access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
@@ -75,13 +55,6 @@ class LinkedInAuthApp:
         response = requests.post(access_token_url, data=data)
         print(f"Response from LinkedIn access token request: {response.json()}")
         return response.json().get('access_token')
-
-    # def open_browser(self):
-    #     webbrowser.open_new('http://localhost:5000/')  # Open the home route instead of the login route
-
-    def run(self):
-        # threading.Timer(1, self.open_browser).start()  # Use threading to open the browser after a slight delay
-        self.app1.run(debug=True)
 
 if __name__ == '__main__':
     app1 = LinkedInAuthApp()

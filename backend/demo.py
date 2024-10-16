@@ -116,54 +116,6 @@ def text_to_speech(text, lang_code):
     tts.save(output_file)
     return output_file
 
-@app.route('/process', methods=['POST'])
-def process():
-    print("hello")
-    data = request.json
-    
-    youtube_url = data.get("youtube_url")
-    print("hello")
-
-    if youtube_url:
-        # Download and transcribe
-        audio_file = download_audio_from_youtube(youtube_url)
-        transcript = transcribe_audio_file(audio_file)
-        print(transcript)
-        text = get_text_chunks(transcript)
-        get_vector_store(text)
-                                             
-        # Translate
-        
-        translated_text = translate_fn('ta',transcript)
-        # Convert to speech
-        output_audio_file = text_to_speech(translated_text, 'ta')
-        print('tts done ')
-        return jsonify({
-            "transcript": transcript,
-            "translated_text": translated_text,
-            "audio_url": f"/static/{os.path.basename(output_audio_file)}"
-        })
-
-    return jsonify({"error": "YouTube URL not provided"}), 400
-@app.route('/answer', methods=['POST'])
-def answer():
-    # Get question from frontend
-    data = request.json
-    user_question = data.get("question")
-
-    if user_question:
-        # Generate an answer
-        try:
-            answer = user_input(user_question)
-            return jsonify({"answer": answer})
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-
-    return jsonify({"error": "No question provided"}), 400
-
-@app.route('/static/<path:filename>', methods=['GET'])
-def serve_static(filename):
-    return send_from_directory(STATIC_DIR, filename, mimetype='audio/mpeg')
 
 if __name__ == '__main__':
     app.run(debug=True)

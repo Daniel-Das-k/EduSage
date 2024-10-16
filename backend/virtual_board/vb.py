@@ -16,9 +16,6 @@ cap.set(4, 720)
 
 detector = HandDetector(staticMode=False, maxHands=1, modelComplexity=1, detectionCon=0.7, minTrackCon=0.5)
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash')
-
 prev_pos = None
 canvas = None
 
@@ -42,13 +39,6 @@ def draw(info, prev_pos, canvas, img):
     elif fingers == [1, 0, 0, 0, 0]:
         canvas = np.zeros_like(img)
     return current_pos, canvas
-
-def sendToAI(model, canvas, fingers):
-    if fingers == [1, 1, 1, 1, 0]:
-        pil_image = Image.fromarray(canvas)
-        response = model.generate_content(["Solve this math problem", pil_image])
-        return response.text
-    return ""
 
 @app.route('/')
 def index():
