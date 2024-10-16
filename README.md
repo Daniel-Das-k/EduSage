@@ -5,30 +5,35 @@ EduSage is a comprehensive, AI-driven educational platform designed to enhance i
 ## Process
 
 1. **Authorization:**
+
     ![EduSage Architecture](images/Authorization.png)
     - Users are redirected to LinkedIn, Instagram, Facebook, and Twitter for authorization after initiating connections.
     - Upon successful authentication, access tokens, refresh tokens, and token expiry information are obtained.
     - All tokens and expiry details are securely stored in MongoDB.
 
 2. **Content Generation:**
+
      ![EduSage Architecture](images/Content.png)
     - Agents use CrewAI technology, supported by Llama 3 and DuckDuckGo, to generate posts.
     - Tokens are securely stored in MongoDB for authentication.
     - Posts are automated across Facebook, Instagram, Twitter, and LinkedIn.
 
 3. **Summarization:**
+
     ![EduSage Architecture](images/Summarization.png)
     - VerbiQube automatically generates announcements and posts for Discord servers.
     - When a YouTube video is uploaded and linked to Discord, it triggers the post creation.
     - The video is converted into a post specifically tailored for the Discord community.
 
 4. **Posting:**
+
     ![EduSage Architecture](images/Authorization.png)
     - Access tokens are used to authenticate and post content to various platforms.
     - The generated content is automatically shared using these tokens.
     - Tokens ensure secure posting to platforms like Facebook, Instagram, Twitter, and LinkedIn.
 
 4. **Youtube translation and Q&A:**
+
     ![EduSage Architecture](images/Translation.png)
     - YouTube audio is processed using youtube-dlp and Whisper to generate transcripts for Q&A.
     - Transcripts are transformed into embeddings and stored in a FAISS vector database for efficient retrieval.
