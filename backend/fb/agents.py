@@ -1,4 +1,4 @@
-import o
+import os
 from crewai import Agent
 from dotenv import load_dotenv
 # from langchain_groq import ChatGroq
