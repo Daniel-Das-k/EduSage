@@ -56,14 +56,14 @@ EduSage is a comprehensive, AI-driven educational platform designed to enhance i
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/YourUsername/EduSage.git
-   cd EduSage
+   git clone https://github.com/Daniel-Das-k/EduSage.git
+   cd EduSage/backend/
    ```
 
 2. **Create a Virtual Environment:**
    ```bash
-   python3 -m venv env
-   source env/bin/activate   # On Windows: `env\Scripts\activate`
+   python3 -m venv edusage
+   source edusage/bin/activate   # On Windows: `env\Scripts\activate`
    ```
 
 3. **Install Dependencies:**
@@ -74,12 +74,20 @@ EduSage is a comprehensive, AI-driven educational platform designed to enhance i
 4. **Set Up Environment Variables:**
    Create a `.env` file in the root directory with the necessary API keys and configuration settings.
 
-5. **Run the Application:**
+5. **front-end Application:**
    ```bash
-   flask run
+   cd client
+   npm i 
+   npm run dev
    ```
 
-6. **Access the Application:**
+6. **Back-end Application:**
+    ```bash
+   cd backend
+   python app.py
+   ```
+
+7. **Access the Application:**
    Open your browser and navigate to `http://127.0.0.1:5000/`.
 
 ### Usage
