@@ -20,8 +20,8 @@ const Container = styled.div`
   
   // background: linear-gradient(120deg, #1E3A5F, #2B4A77); 
   // background: linear-gradient(135deg, #3a5da8, #2a406c);
-  // background: linear-gradient(45deg, #004D4D, #009999);
-  background: #000;
+  background: linear-gradient(45deg, #004D4D, #009999);
+  // background: #000;
   font-family:Neue;
   height:100vh;
 
@@ -73,7 +73,7 @@ const ContentContainer = styled.div`
     //  background: linear-gradient(45deg, #004D4D, #009999);
  /* Semi-transparent for glass effect */
   backdrop-filter: blur(10px); /* Frosted glass effect */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for the glass effect */
+  border: 1px solid #fff; /* Light border for the glass effect */
   
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
@@ -296,30 +296,38 @@ const Home = () => {
             <FlexContainer >
               <Content
                 icon={<TbSettingsAutomation />}
-                content="The virtual whiteboard enhances collaboration by allowing users to draw, annotate, and share ideas in real time."
+                content="It automates content generation and posting across platforms, ensuring consistent scheduling and seamless publishing without manual effort."
                 name="Automation"
               />
+              
               <Content
-                icon={<FaYoutube/>}
-                content="Quickly summarize videos using AI tools, condensing key points to help you save time and focus on what matters the most."
-                name="Youtube Summarizer"
-              />
-               <Content
                 icon={<MdPlagiarism />}
                 content="The YouTube live relay translator provides real-time translations and answers viewer questions, enhancing accessibility and engagement."
                 name='Translator'
               />
+              <Content
+              content="Generates diverse questions for quizzes, exams, or learning assessments using automated algorithms for customization. "
+              icon={<LuListTodo />}
+              name="Generate Question"/> 
+              
+               
              
             </FlexContainer>
             <FlexContainer style={{marginTop:"2rem"}}>
-            {/* <Content
-              content="Stay organized and on track with this dynamic, animated to-do list tailored. "
-              icon={<LuListTodo />}
-              name="ToDoList"/> 
+              <Content
+              icon={<SiGreatlearning/>}
+              content="A digital space for interactive drawing, brainstorming, and collaboration with tools for visual and written inputs. "
+              name="VirtualBoard"/> 
+            
             <Content
+                icon={<FaYoutube/>}
+                content="Allows users to interact with, search, extract, parse, summarize, analyze, and navigate content within PDFs"
+                name="Question"
+              />
+             <Content
             icon={<SiGreatlearning/>}
             content="The learning section offers interactive modules, resources, and assessments to enhance understanding and foster skill development. "
-            name="Learning"/>  */}
+            name="Learning"/> 
             </FlexContainer>
           </FlexContainerSub>
           {/* <div  style={{display:"flex",justifyContent:"center",width:"100%",marginTop:"1rem"}}>
@@ -362,7 +370,7 @@ const Home = () => {
            className="text-xl"  
           required
             type='text'
-            placeholder='Message Verbiqube'
+            placeholder='Message Procura'
             name='textbox'
             value={input}
             onChange={handleChange}

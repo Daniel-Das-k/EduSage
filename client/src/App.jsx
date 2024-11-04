@@ -14,6 +14,9 @@ import TodoList from './subpages/To-Do-List.jsx'
 import Video from './pages/Video.jsx'
 import Learning from './pages/Learning'
 import Flutter from './subpages/Flutter.jsx'
+import Question from './subpages/Question.jsx'
+import GenerateQ from './pages/GenerateQ.jsx'
+import VirtualFeed from './pages/VirtualBoard.jsx'
 
 const App = () => {
 
@@ -33,6 +36,9 @@ const App = () => {
     <Route path='/Video' element={<Video/>}/>
     <Route path='/Learning' element={<Learning/>}/>
     <Route path='/flutter' element={<Flutter/>}/>
+    <Route path='/Question' element={<Question/>}/>
+    <Route path='/Generate Question' element={<GenerateQ/>}/>
+    <Route path='/VirtualBoard' element={<VirtualFeed/>}/>
     
     </Routes>
     </BrowserRouter>

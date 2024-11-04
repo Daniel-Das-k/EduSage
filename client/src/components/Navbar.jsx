@@ -49,7 +49,7 @@ const Navbar = () => {
 
   return (
     <SubContainer>
-      <P>Verbiqube</P>
+      <P>Procura</P>
       <div style={{ display: "flex", alignItems: "center" ,marginBottom:"0.5rem"}}>
         {username && <Username>{username}</Username>}
         <Img src={photoUrl} alt='user photo' />

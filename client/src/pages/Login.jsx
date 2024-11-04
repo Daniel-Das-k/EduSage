@@ -25,8 +25,8 @@ const Container = styled.div`
   height: 100vh;
   width: 100%;
   // background: linear-gradient(120deg, #1E3A5F, #2B4A77); 
-  // background: linear-gradient(45deg, #004D4D, #009999);
-   background:#000;
+  background: linear-gradient(45deg, #004D4D, #009999);
+  //  background:#000;
   //  gap:3rem;
   
 `;

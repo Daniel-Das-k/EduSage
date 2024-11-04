@@ -1,0 +1,43 @@
+body {
+    background-color: #000000; /* Pure black background */
+    color: #ffffff; /* White text for contrast */
+    font-family: 'Arial', sans-serif; /* Clean sans-serif font */
+}
+.daniel{
+   margin-left: 2rem;
+   width:90%;
+   height:"80vh" ;
+   border: 1px solid; /* Thickness of the border */
+  /* Blue gradient border */
+   border-radius: 20px; /* Rounded corners */
+   border-color: #FF7D29;
+   box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3); 
+
+}
+.daniels {
+    width: 70%;
+    height: 70vh;
+    border: 1px solid; /* Thickness of the border */
+    border-image: linear-gradient(to right, #1e90ff, #00bfff) 1; /* Blue gradient border */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3); /* Subtle glow effect */
+    margin: auto; /* Center the element */
+    background-color: #111111; /* Slightly lighter black for the card */
+    display: flex; /* Use flexbox for alignment */
+     /* Center content vertically */
+     /* Center content horizontally */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+.daniel:hover{
+    transform: scale(1.05); /* Scale effect on hover */
+    box-shadow: 0 8px 40px rgba(255, 255, 255, 0.5); /* Enhanced glow effect on hover */
+    transition: 0.5s ease;
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.daniels img {
+    width: 100%; /* Make images responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 20px; /* Rounded corners for images */
+}

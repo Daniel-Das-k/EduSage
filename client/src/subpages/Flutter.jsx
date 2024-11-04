@@ -6,9 +6,9 @@ const VideoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:2rem;  
+  // padding:2rem;  
   height: 100vh;
-  background: linear-gradient(135deg, #3a5da8, #2a406c); 
+  // background: linear-gradient(135deg, #3a5da8, #2a406c); 
 
  /* Green and white gradient */
 `;
@@ -19,7 +19,7 @@ const Flutter = () => {
       <ReactPlayer
         url='https://www.youtube.com/watch?v=CzRQ9mnmh44'
         controls={true}
-        width='80%'
+        width='100%'
         height='100%'
         muted={false}
       />
